@@ -21,6 +21,8 @@
  * Please contact JetBrains, Na Hrebenech II 1718/10, Prague, 14000, Czech Republic
  * if you need additional information or have any questions.
  */
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
   kotlin("jvm")
   `maven-publish`
@@ -28,12 +30,48 @@ plugins {
 
 publishToSpace()
 
+fun createSourceSetForJavaVersion(version: Int, prefix: String = "jdk") = sourceSets.create("$prefix$version") {
+
+  val launcher = javaToolchains.launcherFor {
+    languageVersion.set(JavaLanguageVersion.of(version))
+  }
+
+  (tasks[getCompileTaskName("Kotlin")] as KotlinCompile).apply {
+    kotlinJavaToolchain.toolchain.use(launcher)
+  }
+}
+
+val currentJdkSourceSet: SourceSet = if (JavaVersion.current() >= JavaVersion.VERSION_17) {
+  createSourceSetForJavaVersion(17)
+}else {
+  createSourceSetForJavaVersion(11)
+}
+
+val jdkCommonSourceSet: SourceSet = sourceSets.create("jdkCommon")
+
+val jdkCommonImplementation: Configuration by configurations.getting
+val currentJdkImplementation: Configuration = configurations["${currentJdkSourceSet.name}Implementation"]
+
 val kotlinVersion: String by project
 val projectorClientVersion: String by project
 val projectorClientGroup: String by project
 version = project(":projector-server").version
 
+tasks.withType<Jar> {
+  val dependentOutputs = listOf(
+    jdkCommonSourceSet,
+    currentJdkSourceSet,
+  ).flatMap {
+    it.output.classesDirs.files
+  }
+  from(dependentOutputs)
+}
+
 dependencies {
-  implementation("$projectorClientGroup:projector-util-logging:$projectorClientVersion")
+  jdkCommonImplementation("$projectorClientGroup:projector-util-logging:$projectorClientVersion")
+  currentJdkImplementation(jdkCommonSourceSet.output)
+  api(jdkCommonSourceSet.output)
+  api(currentJdkSourceSet.output)
+
   testImplementation(kotlin("test", kotlinVersion))
 }

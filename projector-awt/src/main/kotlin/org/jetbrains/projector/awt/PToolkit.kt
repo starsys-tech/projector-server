@@ -371,20 +371,11 @@ class PToolkit : SunToolkit(), KeyboardFocusManagerPeerProvider, ComponentFactor
       isAccessible = true
     }
 
-    private val unregisterPeerMethod = AWTAutoShutdown::class.java.getDeclaredMethod("unregisterPeer", Any::class.java,
-                                                                                     Any::class.java).apply {
-      isAccessible = true
-    }
-
     // Target can be MenuComponent or Component
     // Peer can be MenuComponentPeer or ComponentPeer
 
     private fun targetCreatedPeer(target: Any, peer: Any) {
       registerPeerMethod.invoke(AWTAutoShutdown.getInstance(), target, peer)
-    }
-
-    internal fun targetDisposedPeer(target: Any, peer: Any) {
-      unregisterPeerMethod.invoke(AWTAutoShutdown.getInstance(), target, peer)
     }
 
     @Suppress("DEPRECATION")  // todo

@@ -626,8 +626,8 @@ internal object CommandsHandler {
 
   private val commandsMap: Map<String, (Array<Any?>, GraphicsState, DrawEventQueue) -> Unit> = mapOf(
     "sun.java2d.SunGraphics2D.draw(java.awt.Shape)" to CommandsHandler::draw,
-    "sun.java2d.SunGraphics2D.drawRenderedImage(java.org.jetbrains.projector.awt.image.RenderedImage,java.awt.geom.AffineTransform)" to CommandsHandler::drawRenderedImage,
-    "sun.java2d.SunGraphics2D.drawRenderableImage(java.org.jetbrains.projector.awt.image.renderable.RenderableImage,java.awt.geom.AffineTransform)" to CommandsHandler::drawRenderableImage,
+    "sun.java2d.SunGraphics2D.drawRenderedImage(java.awt.image.RenderedImage,java.awt.geom.AffineTransform)" to CommandsHandler::drawRenderedImage,
+    "sun.java2d.SunGraphics2D.drawRenderableImage(java.awt.image.renderable.RenderableImage,java.awt.geom.AffineTransform)" to CommandsHandler::drawRenderableImage,
     "sun.java2d.SunGraphics2D.drawString(java.lang.String,int,int)" to CommandsHandler::drawStringSII,
     "sun.java2d.SunGraphics2D.drawString(java.lang.String,float,float)" to CommandsHandler::drawStringSFF,
     "sun.java2d.SunGraphics2D.drawChars(char[],int,int,int,int)" to CommandsHandler::drawChars,
@@ -646,11 +646,11 @@ internal object CommandsHandler {
     "sun.java2d.SunGraphics2D.drawPolyline(int[],int[],int)" to CommandsHandler::drawPolyline,
     "sun.java2d.SunGraphics2D.drawPolygon(int[],int[],int)" to CommandsHandler::drawPolygon,
     "sun.java2d.SunGraphics2D.fillPolygon(int[],int[],int)" to CommandsHandler::fillPolygon,
-    "sun.java2d.SunGraphics2D.drawImage(java.awt.Image,java.awt.geom.AffineTransform,java.org.jetbrains.projector.awt.image.ImageObserver)" to CommandsHandler::drawImage0,
-    "sun.java2d.SunGraphics2D.drawImage(java.org.jetbrains.projector.awt.image.BufferedImage,java.org.jetbrains.projector.awt.image.BufferedImageOp,int,int)" to CommandsHandler::drawImage1,
-    "sun.java2d.SunGraphics2D.drawImage(java.awt.Image,int,int,java.awt.Color,java.org.jetbrains.projector.awt.image.ImageObserver)" to CommandsHandler::drawImage2,
-    "sun.java2d.SunGraphics2D.drawImage(java.awt.Image,int,int,int,int,java.awt.Color,java.org.jetbrains.projector.awt.image.ImageObserver)" to CommandsHandler::drawImage3,
-    "sun.java2d.SunGraphics2D.drawImage(java.awt.Image,int,int,int,int,int,int,int,int,java.awt.Color,java.org.jetbrains.projector.awt.image.ImageObserver)" to CommandsHandler::drawImage4
+    "sun.java2d.SunGraphics2D.drawImage(java.awt.Image,java.awt.geom.AffineTransform,java.awt.image.ImageObserver)" to CommandsHandler::drawImage0,
+    "sun.java2d.SunGraphics2D.drawImage(java.awt.image.BufferedImage,java.awt.image.BufferedImageOp,int,int)" to CommandsHandler::drawImage1,
+    "sun.java2d.SunGraphics2D.drawImage(java.awt.Image,int,int,java.awt.Color,java.awt.image.ImageObserver)" to CommandsHandler::drawImage2,
+    "sun.java2d.SunGraphics2D.drawImage(java.awt.Image,int,int,int,int,java.awt.Color,java.awt.image.ImageObserver)" to CommandsHandler::drawImage3,
+    "sun.java2d.SunGraphics2D.drawImage(java.awt.Image,int,int,int,int,int,int,int,int,java.awt.Color,java.awt.image.ImageObserver)" to CommandsHandler::drawImage4
   )
 
   private fun Any?.asDouble(): Double = (this as Number).toDouble()

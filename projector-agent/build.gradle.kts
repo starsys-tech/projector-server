@@ -22,8 +22,6 @@
  * if you need additional information or have any questions.
  */
 
-import org.gradle.api.internal.file.archive.ZipFileTree
-import org.gradle.api.internal.file.collections.FileTreeAdapter
 import java.util.*
 
 plugins {
@@ -70,17 +68,7 @@ tasks.withType<Jar> {
   exclude("META-INF/versions/9/module-info.class")
   duplicatesStrategy = DuplicatesStrategy.WARN
 
-  val inlined = inline(configurations.runtimeClasspath).filter {
-    when (it) {
-      is FileTreeAdapter -> when (val tree = it.tree) {
-        is ZipFileTree -> tree.backingFileProvider.get().exists()
-        else -> true
-      }
-      else -> true
-    }
-  }
-
-  from(inlined) // todo: remove
+  from(inline(configurations.runtimeClasspath)) // todo: remove
 }
 
 val localProperties = Properties()

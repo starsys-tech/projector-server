@@ -211,11 +211,3 @@ val downloadFonts by tasks.creating<Task> {
 tasks.processResources {
   dependsOn(downloadFonts)
 }
-
-
-tasks.withType<AbstractArchiveTask> {
-  if (!name.startsWith("dist")) return@withType
-
-  exclude("**/*.class")
-  includeEmptyDirs = false
-}

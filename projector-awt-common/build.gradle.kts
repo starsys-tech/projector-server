@@ -33,13 +33,7 @@ val projectorClientVersion: String by project
 val projectorClientGroup: String by project
 version = project(":projector-server").version
 
-val jdkDependentProject = if (JavaVersion.current() >= JavaVersion.VERSION_17) {
-  project(":projector-awt-jdk17")
-}else {
-  project(":projector-awt-jdk11")
-}
-
 dependencies {
-  api(jdkDependentProject)
+  api("$projectorClientGroup:projector-util-logging:$projectorClientVersion")
   testImplementation(kotlin("test", kotlinVersion))
 }

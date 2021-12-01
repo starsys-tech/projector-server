@@ -21,25 +21,15 @@
  * Please contact JetBrains, Na Hrebenech II 1718/10, Prague, 14000, Czech Republic
  * if you need additional information or have any questions.
  */
-plugins {
-  kotlin("jvm")
-  `maven-publish`
-}
+@file:Suppress("JAVA_MODULE_DOES_NOT_EXPORT_PACKAGE")
 
-publishToSpace()
+package org.jetbrains.projector.awt.extensions
 
-val kotlinVersion: String by project
-val projectorClientVersion: String by project
-val projectorClientGroup: String by project
-version = project(":projector-server").version
+import org.jetbrains.projector.awt.PWindow
+import org.jetbrains.projector.awt.peer.PWindowPeer
+import sun.awt.AWTAccessor
+import java.awt.Window
+import java.awt.peer.ComponentPeer
 
-val jdkDependentProject = if (JavaVersion.current() >= JavaVersion.VERSION_17) {
-  project(":projector-awt-jdk17")
-}else {
-  project(":projector-awt-jdk11")
-}
-
-dependencies {
-  api(jdkDependentProject)
-  testImplementation(kotlin("test", kotlinVersion))
-}
+val PWindow.parentWindow: PWindow?
+  get() = (target as? Window)?.let { (AWTAccessor.getComponentAccessor().getPeer<ComponentPeer>(it) as? PWindowPeer)?.pWindow }

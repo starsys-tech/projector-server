@@ -101,6 +101,8 @@ public fun Project.createRunIdeaTask(
       "--add-opens=jdk.jdi/com.sun.tools.jdi=ALL-UNNAMED",
       "--add-opens=java.base/java.lang.reflect=ALL-UNNAMED",
       "--add-opens=java.desktop/java.awt.image=ALL-UNNAMED",
+      "-XX:+UnlockExperimentalVMOptions",
+      "-XX:+UseZGC",
     )
 
     if (prefix != null) {
